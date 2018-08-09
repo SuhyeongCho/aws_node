@@ -24,10 +24,11 @@ var server = http.createServer(app).listen(app.get('port'),function(){
 var connection = mysql.createConnection({
 host: "localhost",
 user: "root",
-password: "Whtngud2074!",
+password: "whtngud2074",
 database: "project"
 });
 
+app.use('/',router);
 
 app.get('/',function(req,res){
 		fs.readFile('modify.html','utf8',function(err,data){
@@ -43,16 +44,13 @@ app.get('/',function(req,res){
 		});
 
 router.route('/insert').post(function(req,res){
-		connection.connect(function(){
-				var sql = 'INSERT INTO modify (SENTENCE) VALUES (?)';
-				var txt = req.body.text;
-				var param = [txt];
-				console.log(sql+txt);
-				connection.query(sql,param,function(err,results,fields){
-						if(err) throw err;
-						extractNoun(txt,req,res);
-						res.redirect(req.headers.host);
-						});
+		var sql = 'INSERT INTO modify (SENTENCE) VALUES (?)';
+		var txt = req.body.text;
+		var param = [txt];
+		console.log(sql+txt);
+		connection.query(sql,param,function(err,results,fields){
+				if(err) throw err;
+				extractNoun(txt,req,res);
 				});
 		});
 
@@ -80,9 +78,6 @@ function extractNoun(txt,req,res){
 	console.log(sql);
 	connection.query(sql,function(err,results,fields){
 			if(err) throw err;
-<<<<<<< HEAD
-			res.redirect(req.headers.host);
-=======
->>>>>>> 8430d25e298bfcbe6e6ca99a1661dc5c593d34ea
+			res.redirect('http://'+req.headers.host);
 			});
 }

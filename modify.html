@@ -9,8 +9,8 @@
 	</head>
 	<body>
 		<form action="/insert" method="post">
-			<input type="text" name="insert">
-			<input type="submit" name="입력">
+			<input type="text" name="text">
+			<input type="submit" value="입력">
 		</form>
 		<table>
 			<tr>
@@ -24,11 +24,11 @@
 			<% prodList.forEach(function(item,index){ %>
 			<form action="/modifying" method="post">
 			<tr>
-				<td><input type="text" name="id" value="<%= item.id %>" readonly></td>
+				<td><input type="text" name="id" value="<%= item.ID %>" readonly></td>
 				<td><input type="text" name="sentence" value="<%= item.sentence %>" readonly></td>
-				<td><input type="text" name="noun" value="<%= item.extract_noun %>" readonly></td>
-				<td><input type="text" name="before" value="<%= item.before_modify %>"></td>
-				<td><input type="text" name="after" value="<%= item.after_modify %>"></td>
+				<td><input type="text" name="noun" value="<%= item.EXTRACT_NOUN %>" readonly></td>
+				<td><input type="text" name="before" value="<%= item.BEFORE_MODIFY %>"></td>
+				<td><input type="text" name="after" value="<%= item.AFTER_MODIFY %>"></td>
 				<td><input type="submit" value="바꾸기"></td>
 			</tr>
 			</form>
