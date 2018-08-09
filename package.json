@@ -23,10 +23,14 @@
     "fs": "0.0.1-security",
     "http": "0.0.0",
 <<<<<<< HEAD
+<<<<<<< HEAD
     "mecab-ffi": "^0.2.0",
     "mysql": "^2.16.0",
     "nan": "^2.10.0",
     "node-gyp": "^3.8.0"
+=======
+    "mysql": "^2.16.0"
+>>>>>>> 8430d25e298bfcbe6e6ca99a1661dc5c593d34ea
 =======
     "mysql": "^2.16.0"
 >>>>>>> 8430d25e298bfcbe6e6ca99a1661dc5c593d34ea

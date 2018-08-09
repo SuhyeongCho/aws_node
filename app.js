@@ -80,6 +80,9 @@ function extractNoun(txt,req,res){
 	console.log(sql);
 	connection.query(sql,function(err,results,fields){
 			if(err) throw err;
+<<<<<<< HEAD
 			res.redirect(req.headers.host);
+=======
+>>>>>>> 8430d25e298bfcbe6e6ca99a1661dc5c593d34ea
 			});
 }
