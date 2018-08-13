@@ -67,11 +67,12 @@ router.route('/modify').post(function(req,res){
 		});
 
 function extractNoun(txt,req,res){
-	result = mecab.parseSync(txt);
+	modi_txt = makeKeyWord(txt);
+	result = mecab.parseSync(modi_txt);
 	var str = "";
 	for(var i=0;i<result.length;i++){
 		console.log(result[i][0]+" : "+result[i][1]);
-		if(result[i][1]=='NNG'||result[i][1]=='NNP'||result[i][1]=='NNB'||result[i][1]=='NNBC'||result[i][1]=='NR'||result[i][1]=='NP'){
+		if(result[i][1]=='NNG'||result[i][1]=='NNP'||result[i][1]=='NNBC'||result[i][1]=='NR'||result[i][1]=='NP'||result[i][1]=='SL'||result[i][1]=='SN'){
 			str = str + result[i][0] + " ";
 		}
 	}
@@ -85,7 +86,10 @@ function extractNoun(txt,req,res){
 }
 
 function makeKeyWord(str){
-	str = str.replace(/근처 |주변 /,"");
+	var replaceArr = ['근처','주변','안','위치','집','검색','추천'];
+	for(var i=0;i<replaceArr.length;i++){
+		str = str.replace(replaceArr[i]+' ',"");
+	}
 	str = str.trim();
 	return str;
 }
