@@ -72,7 +72,7 @@ function extractNoun(txt,req,res){
 	var str = "";
 	for(var i=0;i<result.length;i++){
 		console.log(result[i][0]+" : "+result[i][1]);
-		if(result[i][1]=='NNG'||result[i][1]=='NNP'||result[i][1]=='NNBC'||result[i][1]=='NR'||result[i][1]=='NP'||result[i][1]=='SL'||result[i][1]=='SN'){
+		if(result[i][1]=='NNG'||result[i][1]=='NNP'||result[i][1]=='NNBC'||result[i][1]=='NR'||result[i][1]=='NP'||result[i][1]=='SL'||result[i][1]=='SN'||result[i][1]=='XSN'||result[i][1]=='XPN'){
 			str = str + result[i][0] + " ";
 		}
 	}
@@ -86,7 +86,7 @@ function extractNoun(txt,req,res){
 }
 
 function makeKeyWord(str){
-	var replaceArr = ['근처','주변','안','위치','집','검색','추천'];
+	var replaceArr = ['근처','주변','안','위치','검색','추천'];
 	for(var i=0;i<replaceArr.length;i++){
 		str = str.replace(replaceArr[i]+' ',"");
 	}
