@@ -22,7 +22,7 @@
 				<th>Button</th>
 			</tr>
 			<% prodList.forEach(function(item,index){ %>
-			<form action="/modifying" method="post">
+			<form action="/modify" method="post">
 			<tr>
 				<td><input type="text" name="id" value="<%= item.ID %>" readonly></td>
 				<td><input type="text" name="sentence" value="<%= item.sentence %>" readonly></td>

@@ -58,10 +58,11 @@ router.route('/modify').post(function(req,res){
 		var id = req.body.id;
 		var before = req.body.before;
 		var after = req.body.after;
-		var sql = `UPDATE modify SET before_modify='${before}' after_modify='${after}' WHERE sentence='${id}'`;
+		var sql = `UPDATE modify SET BEFORE_MODIFY='${before}', AFTER_MODIFY='${after}' WHERE ID=${id}`;
 		console.log(sql);
 		connection.query(sql,function(err,results,fields){
 				if(err) throw err;
+				res.redirect('http://'+req.headers.host);
 				});
 		});
 
@@ -74,10 +75,17 @@ function extractNoun(txt,req,res){
 			str = str + result[i][0] + " ";
 		}
 	}
+	str = makeKeyWord(str);
 	var sql = `UPDATE modify SET extract_noun='${str}' WHERE sentence='${txt}'`;
 	console.log(sql);
 	connection.query(sql,function(err,results,fields){
 			if(err) throw err;
 			res.redirect('http://'+req.headers.host);
 			});
+}
+
+function makeKeyWord(str){
+	str = str.replace(/근처 |주변 /,"");
+	str = str.trim();
+	return str;
 }
