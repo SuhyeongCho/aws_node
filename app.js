@@ -82,6 +82,7 @@ function extractNoun(txt){
 function extractPart(txt,req,res){
 	noun = [];
 	josa = [];
+	txt = changeSynonym(txt);
 	extractNoun(txt);
 	noun = makeKeyWord(noun);
 	console.log(noun);
@@ -120,4 +121,8 @@ function makeKeyWord(arr){
 		}
 	}
 	return arr;
+}
+
+function changeSynonym(txt){
+	return txt;
 }
