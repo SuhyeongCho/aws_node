@@ -50,7 +50,7 @@ router.route('/insert').post(function(req,res){
 		console.log(sql+txt);
 		connection.query(sql,param,function(err,results,fields){
 				if(err) throw err;
-				extractNoun(txt,req,res);
+				extractPart(txt,req,res);
 				});
 		});
 
@@ -66,30 +66,58 @@ router.route('/modify').post(function(req,res){
 				});
 		});
 
-function extractNoun(txt,req,res){
-	modi_txt = makeKeyWord(txt);
-	result = mecab.parseSync(modi_txt);
-	var str = "";
+var noun = [],josa = [];
+function extractNoun(txt){
+	var part,name;
+	var result = mecab.parseSync(txt);
 	for(var i=0;i<result.length;i++){
-		console.log(result[i][0]+" : "+result[i][1]);
-		if(result[i][1]=='NNG'||result[i][1]=='NNP'||result[i][1]=='NNBC'||result[i][1]=='NR'||result[i][1]=='NP'||result[i][1]=='SL'||result[i][1]=='SN'||result[i][1]=='XSN'||result[i][1]=='XPN'){
-			str = str + result[i][0] + " ";
-		}
+		console.log(result[i][0] + " : " + result[i][1]);
+		name = result[i][0];
+		part = result[i][1];
+		if(part=='NNG'||part=='NNP'||part=='NNBC'||part=='NR'||part=='NP'||part=='SL'||part=='SN'||part=='XSN'||part=='XPN') noun.push(name);
+		else if(part=='JKS'||part=='JKB'||part=='JX') josa.push(name);
 	}
-	str = makeKeyWord(str);
+}
+
+function extractPart(txt,req,res){
+	noun = [];
+	josa = [];
+	extractNoun(txt);
+	noun = makeKeyWord(noun);
+	console.log(noun);
+	console.log(josa);
+	var route = noun[noun.length-1];
+	var str = "";
+	if(route == '길'||route == '방법'||route == '안내'){
+		var pos1 = txt.indexOf(josa[0]);
+		var pos2 = txt.indexOf(route);
+		var str1 = txt.slice(0,pos1);
+		var str2 = txt.slice(pos1,pos2);
+		noun = []; extractNoun(str1);
+		for(var i=0;i<noun.length;i++) str = str + noun[i];
+		str = str + " / ";
+		noun = []; extractNoun(str2);
+		for(var i=0;i<noun.length;i++) str = str + noun[i];
+	}else{
+		for(var i=0;i<noun.length;i++) str = str + noun[i];
+	}
 	var sql = `UPDATE modify SET extract_noun='${str}' WHERE sentence='${txt}'`;
 	console.log(sql);
 	connection.query(sql,function(err,results,fields){
-			if(err) throw err;
-			res.redirect('http://'+req.headers.host);
-			});
+		if(err) throw err;
+		res.redirect('http://'+req.headers.host);
+		});
 }
-
-function makeKeyWord(str){
+function makeKeyWord(arr){
 	var replaceArr = ['근처','주변','안','위치','검색','추천'];
-	for(var i=0;i<replaceArr.length;i++){
-		str = str.replace(replaceArr[i]+' ',"");
+	for(var i=0;i<arr.length;i++){
+		for(var j=0;j<replaceArr.length;j++){
+			if(arr[i] == replaceArr[j]){
+				arr.splice(i,1);
+				i--;
+				continue;
+			}
+		}
 	}
-	str = str.trim();
-	return str;
+	return arr;
 }

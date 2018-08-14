@@ -1,0 +1,14 @@
+set cindent
+set smartindent               
+set nowrap                   
+set ff=unix
+"set bg=dark
+set ruler
+set tabstop=4               
+set softtabstop=4           
+set shiftwidth=4           
+set number                   
+set nohls                   
+set history=200               
+set ch=1                   
+set laststatus=2
